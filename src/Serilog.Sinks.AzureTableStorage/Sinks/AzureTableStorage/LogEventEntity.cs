@@ -51,6 +51,7 @@ namespace Serilog.Sinks.AzureTableStorage
             ITextFormatter textFormatter)
         {
             Timestamp = log.Timestamp.ToUniversalTime().DateTime;
+            TIMESTAMP = Timestamp; // I know this is crazy but the logstash input expects this field to be in uppercase!
             PartitionKey = partitionKey;
             RowKey = GetValidRowKey(rowKey);
             MessageTemplate = log.MessageTemplate.Text;
@@ -93,5 +94,7 @@ namespace Serilog.Sinks.AzureTableStorage
         /// A text-serialised representation of the data attached to the log message.
         /// </summary>
         public string Data { get; set; }
+
+        public DateTimeOffset TIMESTAMP { get; set; }
     }
 }
